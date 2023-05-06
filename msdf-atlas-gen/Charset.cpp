@@ -13,11 +13,15 @@ static Charset createAsciiCharset() {
 const Charset Charset::ASCII = createAsciiCharset();
 
 void Charset::add(unicode_t cp) {
-    codepoints.insert(cp);
+    codepoints.push_back(cp);
 }
 
 void Charset::remove(unicode_t cp) {
-    codepoints.erase(cp);
+	auto r = std::find( std::begin(codepoints), std::end(codepoints), cp );
+	if ( r != codepoints.end() )
+	{
+		codepoints.erase( r );
+	}
 }
 
 size_t Charset::size() const {
@@ -28,11 +32,11 @@ bool Charset::empty() const {
     return codepoints.empty();
 }
 
-std::set<unicode_t>::const_iterator Charset::begin() const {
+std::vector<unicode_t>::const_iterator Charset::begin() const {
     return codepoints.begin();
 }
 
-std::set<unicode_t>::const_iterator Charset::end() const {
+std::vector<unicode_t>::const_iterator Charset::end() const {
     return codepoints.end();
 }
 
